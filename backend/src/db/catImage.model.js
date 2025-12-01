@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 
 const CatImageSchema = new mongoose.Schema({
-  data: Buffer,          // Imagen en binario
-  createdAt: Date,       // Primera vez que se generó
-  lastCalledAt: Date     // Última vez que se pidió ese mismo gato
+  data: Buffer,
+  hash: String,         
+  createdAt: Date,
+  lastCalledAt: Date
 });
 
 module.exports = mongoose.model("CatImage", CatImageSchema);

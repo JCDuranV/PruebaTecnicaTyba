@@ -1,6 +1,6 @@
 const { fetchRandomCat } = require("../services/cat.service");
 const CatImage = require("../db/catImage.model");
-const { get } = require("mongoose");
+const generateImageHash = require("../utils/hashImage");
 
 async function getCatImage(req, res) {
   try {
@@ -8,14 +8,31 @@ async function getCatImage(req, res) {
 
     const now = new Date();
 
-    // Guardamos en la BD
-    await CatImage.create({
-      data: imageBuffer,
-      createdAt: now,
-      lastCalledAt: now
-    });
+    // Calcular hash de la imagen
+    const hash = generateImageHash(imageBuffer);
 
-    // Devolvemos la imagen como respuesta HTTP
+    // Buscar si esa imagen ya existe
+    let existingImage = await CatImage.findOne({ hash });
+
+    if (existingImage) {
+      // Ya existe → solo actualizar lastCalledAt
+      existingImage.lastCalledAt = now;
+      await existingImage.save();
+
+      console.log("Imagen duplicada → actualizando timestamp");
+    } else {
+      // No existe → guardar como nueva
+      await CatImage.create({
+        data: imageBuffer,
+        hash,
+        createdAt: now,
+        lastCalledAt: now
+      });
+
+      console.log("Imagen nueva guardada");
+    }
+
+    // Devolver la imagen
     res.set("Content-Type", "image/jpeg");
     res.send(imageBuffer);
 
