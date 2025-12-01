@@ -1,5 +1,6 @@
 const { fetchRandomCat } = require("../services/cat.service");
 const CatImage = require("../db/catImage.model");
+const { get } = require("mongoose");
 
 async function getCatImage(req, res) {
   try {
@@ -24,6 +25,17 @@ async function getCatImage(req, res) {
   }
 }
 
+async function getCatCount(req, res) {
+  try {
+    const count = await CatImage.countDocuments();
+    res.json({ count });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Could not count images" });
+  }
+}
+
 module.exports = {
-  getCatImage
+  getCatImage,
+  getCatCount
 };
