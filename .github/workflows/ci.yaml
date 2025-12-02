@@ -18,17 +18,21 @@ jobs:
         with:
           node-version: 18
           cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
 
       - name: Install dependencies
+        working-directory: ./backend
         run: npm install
 
       - name: Run tests
+        working-directory: ./backend
         run: npm test
 
       - name: Lint Dockerfile
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: Dockerfile
+          dockerfile: backend/Dockerfile
 
       - name: Validate Docker build
+        working-directory: ./backend
         run: docker build -t cats-backend .
