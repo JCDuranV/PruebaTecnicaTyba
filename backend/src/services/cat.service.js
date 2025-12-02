@@ -20,6 +20,21 @@ async function fetchRandomCat() {
   }
 }
 
+async function fetchVerificationCat() {
+  try {
+    const response = await axios.get(VERIFICATION_URL, {
+      responseType: "arraybuffer",
+      headers: { "Accept": "image/jpeg" },
+      maxRedirects: 5
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching verification cat:", error);
+    throw new Error("Error fetching verification cat image");
+  }
+}
+
 module.exports = {
   fetchRandomCat,
+  fetchVerificationCat
 };
