@@ -31,7 +31,7 @@ jobs:
       - name: Lint Dockerfile
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: backend/Dockerfile
+          dockerfile: ./backend/Dockerfile
 
       - name: Validate Docker build
         working-directory: ./backend
