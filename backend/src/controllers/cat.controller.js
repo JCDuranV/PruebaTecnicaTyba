@@ -59,5 +59,6 @@ async function getCatCount(req, res) {
 module.exports = {
   getCatImage,
   getVerificationCat,
-  getCatCount
+  getCatCount,
+  __test_saveOrUpdateImage: saveOrUpdateImage
 };
