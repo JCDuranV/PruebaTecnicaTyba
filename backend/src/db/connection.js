@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 async function connectDB() {
   try {
-    const uri = process.env.MONGO_URI || "mongodb://root:rootpassword@localhost:27017/catsdb?authSource=admin";
+    const uri = process.env.MONGO_URI || "mongodb://root:rootpassword@mongo:27017/catsdb?authSource=admin";
 
     await mongoose.connect(uri);
     console.log("MongoDB connected");

@@ -1,13 +1,23 @@
 services:
+  backend:
+    build: .
+    container_name: cats_backend
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://root:rootpassword@mongo:27017/catsdb?authSource=admin
+    depends_on:
+      - mongo
+
   mongo:
     image: mongo:7
     container_name: mongo_cats
     restart: always
-    ports:
-      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - "27017:27017"
     volumes:
       - mongo_data:/data/db
 
