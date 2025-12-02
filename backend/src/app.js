@@ -1,11 +1,14 @@
 const express = require("express");
+const catRoutes = require("./routes/cat.routes");
+const connectDB = require("./db/connection");
 
 const app = express();
 
-// Middleware básico
-app.use(express.json());
+connectDB();
 
-// Endpoint de prueba
+app.use(express.json());
+app.use("/api", catRoutes);
+
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
