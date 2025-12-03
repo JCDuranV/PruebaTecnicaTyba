@@ -19,18 +19,19 @@ Precondiciones:
 - Tener instalado y ejecutando docker a la hora de probar el proyecto.
 
 Pasos para ejecutar el proyecto:
-- 1. Descargue la carpeta /PruebaDocker que se encuentra en este repositorio, la cual contienen el archivo llamado docker-compose.yaml. 
+- 1. Descargue el archivo docker-compose.yaml que se encuentra en la carpeta /PruebaDocker en este repositorio y guárdelo en una carpeta vacía. 
 - 2. Abra la carpeta previamente mencionada y ejecute una nueva terminal en esa ubicación.
 - 3. Mediante la linea de comandos de la terminal, ejecute el siguiente comando:
 ```bash
 docker-compose up 
 ```
 - 4. Al realizar esto, levantara los dos contenedores (backend y base de datos) y podrá probar los endpoints. 
-- 5. Si todo fue satisfactorio, vera un mensaje como el que se muestra a continuación. Esto indica que los contenedores están corriendo correctamente.
+- 5. Si todo fue satisfactorio, vera un mensaje como el que se muestra a continuación. 
 ```bash
 Server running on port 3000
 MongoDB connected
 ```
+Esto indica que los contenedores están corriendo correctamente.
 
 La imagen de este proyecto se encuentra en el siguiente link: 
 [https://hub.docker.com/repository/docker/jcduranv/cats-backend/general](https://hub.docker.com/r/jcduranv/cats-backend)
