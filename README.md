@@ -33,6 +33,59 @@ MongoDB connected
 ```
 Esto indica que los contenedores están corriendo correctamente.
 
+
+## Ejecución automática con `run.sh`
+
+Además del archivo `docker-compose.yaml`, el proyecto incluye un script Bash llamado `run.sh` que facilita la gestión del entorno local con un solo comando.
+
+Este script permite:
+
+- Construir y levantar el entorno (backend + MongoDB)
+- Detener los contenedores
+- Ver logs del backend
+- Limpiar volúmenes e imágenes huérfanas
+- Reiniciar todo el entorno
+
+### Comandos disponibles
+
+Antes de ejecutarlo, otorgue permisos:
+
+```bash
+chmod +x run.sh
+```
+
+### Levantar el proyecto
+
+```bash
+./run.sh up
+```
+
+### Detener contenedores
+
+```bash
+./run.sh down
+```
+
+### Reiniciar entorno
+
+```bash
+./run.sh restart
+```
+
+### Ver logs del backend
+
+```bash
+./run.sh logs
+```
+
+### Limpiar contenedores e imágenes
+
+```bash
+./run.sh clean
+```
+
+Este método es ideal para desarrolladores o revisores técnicos, ya que automatiza el ciclo completo de trabajo con Docker Compose y acelera la puesta en marcha del entorno.
+
 La imagen de este proyecto se encuentra en el siguiente link: 
 [https://hub.docker.com/repository/docker/jcduranv/cats-backend/general](https://hub.docker.com/r/jcduranv/cats-backend)
 
