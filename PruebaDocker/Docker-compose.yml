@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    restart: always
+
+  backend:
+    image: jcduranv/cats-backend:latest
+    container_name: cats-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/catsdb
+    depends_on:
+      - mongo
