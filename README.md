@@ -51,7 +51,7 @@ http://localhost:3000/api
 Este endpoint btiene una foto de un gato aleatorio la cual es traida desde CATAAS. Adicional a esto, la descarga en formato binario, le calcula un hash SHA256 y la almacena en la base de datos. En caso que la imagén ya se encuentre en la base de datos ( esto lo verifica a través de la comparación hashes ), solo la muestra y actualiza el atributo lastCalledAt. 
 
 
-### 🔢 GET /api/cat/count
+### 🔢 GET /api/count
 
 Este endpoint devuelve la cuenta de la cantidad de imágenes únicas almacenadas en la base de datos. 
 
@@ -61,7 +61,7 @@ Al llamar al endpoint, devuelve una respuesta de forma:
 { "count": 12 }
 ```
 
-### 🔍 GET /api/cat/verification
+### 🔍 GET /api/verification
 
 Este endpoint obtiene una imagen específica de CATAAS con id = oK1thExzt01VM4Tc. Esto permite demostrar que las imágenes en la base de datos son únicas y, al momento de acceder a la misma imagen más de una vez, esta no se duplica en la base de datos.
 
