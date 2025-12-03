@@ -15,17 +15,26 @@ Incluye:
 
 # ⚙️ Instalación local
 
-La imagen de este proyecto se encuentra en el siguiente link: 
-https://hub.docker.com/repository/docker/jcduranv/cats-backend/general
+Precondiciones:
+- Tener instalado y ejecutando docker a la hora de probar el proyecto.
 
 Pasos para ejecutar el proyecto:
-- 1. Descargue el archivo llamado docker-compose.yaml que se encuentra en la carpeta /backend de este repositorio y guárdelo en una carpeta vacia. 
-- 2. Abra una nueva terminal en la misma ubicación donde guardo el archivo docker-compose.yaml
-- 3. Mediante la linea de comandos de la terminal ejecute el siguiente comando:
+- 1. Descargue la carpeta /PruebaDocker que se encuentra en este repositorio, la cual contienen el archivo llamado docker-compose.yaml. 
+- 2. Abra la carpeta previamente mencionada y ejecute una nueva terminal en esa ubicación.
+- 3. Mediante la linea de comandos de la terminal, ejecute el siguiente comando:
 ```bash
 docker-compose up 
 ```
 - 4. Al realizar esto, levantara los dos contenedores (backend y base de datos) y podrá probar los endpoints. 
+- 5. Si todo fue satisfactorio, vera un mensaje como el que se muestra a continuación. Esto indica que los contenedores están corriendo correctamente.
+```bash
+Server running on port 3000
+MongoDB connected
+```
+
+La imagen de este proyecto se encuentra en el siguiente link: 
+[https://hub.docker.com/repository/docker/jcduranv/cats-backend/general](https://hub.docker.com/r/jcduranv/cats-backend)
+
 ---
 
 # ⚙️ Ejecución local
@@ -86,7 +95,7 @@ createdAt
 lastCalledAt
 ```
 
-En caso de que una imagen se repita no se crea un nuevo documento, solo se actualiza lastCalledAt. 
+De esta forma podemos comparar los valores de las distintas imágenes almacenadas y verificar cuando una imagen ya se encuentra almacenada en la base de datos. En caso de que una imagen se repita no se crea un nuevo documento, solo se actualiza lastCalledAt.
 
 ---
 # 🧪 Pruebas Unitarias
@@ -104,44 +113,42 @@ Así mismo, se prueba la función saveOrUpdateImage, pieza clave del sistema de 
 ### ✔ getCatImage (con mocks)
 
 Prueba las rutas del controlador, específicamente getCatImage, utilizando mocks controlados para evitar dependencias externas en los tests. Se mockean Axios, Mongoose (findOne, create) y el servicio interno fetchRandomCat. De este modo, se garantiza que el controlador entrega correctamente la imagen como respuesta HTTP cuando todo funciona bien y que maneja adecuadamente los errores devolviendo los códigos y mensajes esperados.
+
 ---
-# 🔄 CI — Integración Continua
+# CI / CD
+
+## 🔄 CI — Integración Continua
 
 El proyecto implementa un pipeline de Integración Continua mediante GitHub Actions, el cual se ejecuta automáticamente ante cada Pull Request dirigido a la rama main. Este flujo asegura que todo cambio introducido en el código pueda integrarse sin comprometer la calidad del sistema. El pipeline realiza la instalación completa de dependencias, ejecuta un análisis estático del Dockerfile utilizando Hadolint, corre todas las pruebas unitarias y valida que la imagen Docker del backend pueda construirse correctamente. Esto permite detectar errores de forma temprana, estandarizar la calidad del código y garantizar que la aplicación se mantenga en un estado funcional durante todo el ciclo de desarrollo.
 
-🚀 CD — Despliegue Continuo
+## 🚀 CD — Despliegue Continuo
 
-Cuando se hace push a main:
+Además de la integración continua, el proyecto incorpora un mecanismo de Despliegue Continuo que se activa automáticamente cuando se hace push a la rama main. En este proceso, GitHub Actions construye la imagen Docker del backend, la etiqueta como latest y la publica en Docker Hub utilizando las credenciales proporcionadas a través de las variables de entorno DOCKERHUB_USERNAME y DOCKERHUB_TOKEN. Este enfoque permite que la aplicación esté siempre lista para ser desplegada en cualquier plataforma compatible con Docker —incluyendo Render, AWS, DigitalOcean, u otras— facilitando un flujo de entrega moderno, automatizado y altamente reproducible.
 
-Se construye la imagen Docker del backend
+---
 
-Se etiqueta como latest
+# 🌐 Despliegue
 
-Se sube automáticamente a Docker Hub
+El proyecto se encuentra completamente desplegado en un entorno público utilizando Render como plataforma de hosting para el backend y MongoDB Atlas como proveedor de base de datos en la nube. Para el backend, se configuró un servicio web en Render que permite que la plataforma construya y ejecute automáticamente la imagen Docker definida en el repositorio. El servicio expone el puerto 3000, cumpliendo con la configuración del contenedor.
 
-Variables usadas:
+En cuanto a la base de datos, se utilizó MongoDB Atlas, donde se creó un cluster gratuito, se configuró un usuario con permisos de lectura y escritura, y se habilitó el acceso desde cualquier IP para facilitar la conexión desde Render. Posteriormente, se generó la cadena de conexión (connection string) y se registró como variable de entorno MONGO_URI dentro del panel de Render, permitiendo que el backend se comunique de forma segura y estable con la base de datos remota.
 
-DOCKERHUB_USERNAME
+Esta arquitectura garantiza un despliegue totalmente funcional, reproducible y accesible públicamente, demostrando un flujo completo de infraestructura moderna: contenedores Docker, hosting cloud y una base de datos gestionada en la nube.
 
-DOCKERHUB_TOKEN
+### 🔎 Nota importante sobre el tiempo de respuesta
 
-Esto permite desplegar fácilmente en cualquier plataforma Docker-ready.
+Dado que el backend está desplegado en Render utilizando el plan gratuito, es posible que la primera solicitud tarde algunos segundos en responder. Esto se debe a que:
 
-🌐 Despliegue
+- Render apaga automáticamente el servicio tras aproximadamente 15 minutos de inactividad.
 
-El proyecto puede desplegarse en:
+- La plataforma requiere un breve periodo de "cold start" para volver a activar el contenedor cuando recibe tráfico nuevamente.
 
-🟩 Render 
+Después del primer acceso, el servicio funcionará con total normalidad y sin retrasos significativos.
 
-Crear servicio web
+### URL del proyecto en nube: https://pruebatecnicatyba.onrender.com/api/cat
 
-Seleccionar "Deploy from Dockerfile"
-
-Puerto: 3000
-
-
-
-🛡 Buenas Prácticas Implementadas
+---
+# 🛡 Buenas Prácticas Implementadas
 
 ✔ Arquitectura modular (controllers/routes/services/utils)
 ✔ Código limpio y mantenible
@@ -153,7 +160,7 @@ Puerto: 3000
 ✔ Variables de entorno para DB
 ✔ Validación, logs y manejo de errores
 
-🙌 Contribuciones
+# 🙌 Contribuciones
 
 Proyecto desarrollado como parte de una evaluación técnica.
 Cualquier mejora o recomendación es bienvenida.
